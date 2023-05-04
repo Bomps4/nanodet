@@ -461,7 +461,7 @@ class NanoDetPlusHead(nn.Module):
             cv2.imshow("det", result)
         return result
 
-    def get_bboxes(self, cls_preds, reg_preds, img_metas):
+    def get_bboxes(self, cls_preds, reg_preds, img_metas,score_threshold):
         """Decode the outputs to bboxes.
         Args:
             cls_preds (Tensor): Shape (num_imgs, num_points, num_classes).
@@ -505,7 +505,7 @@ class NanoDetPlusHead(nn.Module):
             results = multiclass_nms(
                 bbox,
                 score,
-                score_thr=0.05,
+                score_thr=score_threshold,
                 nms_cfg=dict(type="nms", iou_threshold=0.6),
                 max_num=100,
             )
